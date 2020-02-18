@@ -3,6 +3,7 @@ let count = 0;
 let operation = 0;
 let result = 0;
 let inProgress = 0;
+let dots = 0;
 
 const test = function() {
     let oldValue;
@@ -27,27 +28,39 @@ const operationC = function() {
 };
 
 const operationDivide = function() {
+  dots--;
   operationC();
   document.getElementById('operations').innerText = `${numbers[count - 1]} / `;
   operation = 1;
 };
 
 const operationMultiply = function() {
+  dots--;
   operationC();
   document.getElementById('operations').innerText = `${numbers[count - 1]} * `;
   operation = 2;
 };
 
 const operationMinus = function () {
+  dots--;
   operationC();
   document.getElementById('operations').innerText = `${numbers[count - 1]} - `;
   operation = 3;
 };
 
 const operationPlus = function () {
+  dots--;
   operationC();
   document.getElementById('operations').innerText = `${numbers[count - 1]} + `;
   operation = 4;
+};
+
+const addDot = function () {
+  if (dots === 0) {
+    numbers[count] += `.`;
+  }
+  document.getElementById('calculationResult').innerText = `${numbers[count]}`;
+  dots++;
 };
 
 const equal = function() {
@@ -81,6 +94,7 @@ const equal = function() {
 const clear = function() {
   document.getElementById('operations').innerText = ``;
   document.getElementById('calculationResult').innerText = ``;
+  document.getElementById('block').style.display = 'none';
   numbers = [""];
   count = 0;
   inProgress = 0;
@@ -97,6 +111,7 @@ document.getElementById('7').addEventListener('click', test);
 document.getElementById('8').addEventListener('click', test);
 document.getElementById('9').addEventListener('click', test);
 document.getElementById('0').addEventListener('click', test);
+document.getElementById('dot').addEventListener('click', addDot);
 document.getElementById('divide').addEventListener('click', operationDivide);
 document.getElementById('multiply').addEventListener('click', operationMultiply);
 document.getElementById('minus').addEventListener('click', operationMinus);
