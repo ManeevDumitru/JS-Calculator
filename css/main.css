@@ -12,6 +12,10 @@
     user-select: none;
 }
 
+body {
+    background: #12233b;
+}
+
 input {
   background: none;
   height: 90px;
@@ -27,6 +31,19 @@ ul li {
   display: inline-block;
 }
 
+#phone::before {
+    position: absolute;
+    content: 'Sergiu Chilat ';
+    color: pink;
+    padding: 15px 0 0 15px;
+    left: 0;
+    top: -50px;
+    height: 50px;
+    width: 370px;
+    border-radius: 15px 15px 0 0;
+    background: #1d3349;
+}
+
 #phone {
   background: #2a2a2a;
   max-width: 385px;
@@ -36,7 +53,21 @@ ul li {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 25px 300px 1fr;
-  margin: 50px 0 0 250px;
+  margin: 75px 0 0 250px;
+}
+
+#phone::after{
+    position: absolute;
+    content: 'Screenshot (Feb 18, 2020 19:59:10)';
+    color: white;
+    padding: 15px 0 0 15px;
+    left: 0;
+    bottom: -50px;
+    height: 50px;
+    width: 370px;
+    border-radius: 0 0 15px 15px;
+    background: #1d3349;
+    font-size: 20px;
 }
 
 /* header */ /* header */ /* header */ /* header */ /* header */ /* header */
@@ -159,10 +190,17 @@ ul li {
 
 #buttonsMiddle ul li {
   background: #212121;
+  position: relative;
 }
 
 #buttonsMiddle ul li:hover {
   background: #444444;
+}
+
+#plusBlock {
+    position: absolute !important;
+    background: #fff;
+    z-index: 2;
 }
 
 #buttonsMiddle ul li:last-child {
@@ -184,4 +222,15 @@ ul li {
 #buttonsRight:hover {
   background: #444444;
   cursor: pointer;
+}
+
+#block {
+    height: 80%;
+    background: #000;
+    opacity: 50%;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: none;
 }
