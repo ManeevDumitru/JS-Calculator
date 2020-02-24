@@ -19,12 +19,58 @@ class Calculator {
     });
   }
 
+  buttonAdd() {
+    document.addEventListener('keydown', (number) => {
+      this.keyboardInUse = true;
+      if (number.key > -1 && number.key <= 9) {
+        this.numbers[this.count] += Number(number.key);
+        this.printNumber();
+      }
+      console.log(this.numbers);
+    });
+  }
+
+  operationAdd() {
+    document.addEventListener('keydown',  (number) => {
+      if (number.key === "+" ||
+      number.key === "-" ||
+      number.key === "*" ||
+      number.key === "/") {
+        this.chooseOperation();
+      }
+      switch (number.key) {
+        case "+":
+          this.operationValue = "+";
+          break;
+        case "-":
+          this.operationValue = "-";
+          break;
+        case "*":
+          this.operationValue = "x";
+          break;
+        case "/":
+          this.operationValue = "/";
+          break;
+        case "Backspace":
+          this.resetCalculator();
+          break;
+        case ".":
+          this.addDot();
+          break;
+      }
+      if (number.key === `Enter`){
+        this.performCalculation();
+      }
+      this.printNumber();
+    });
+  }
+
   chooseOperation() {
+    console.log('choose');
     if (this.keyboardInUse === false) {
       this.operation.forEach(operation => {
         operation.addEventListener('click', () => {
           this.operationValue = operation.innerHTML;
-          this.operationClicked = true;
           this.count++;
           this.printNumber();
           document.getElementById('block').style.display = 'block';
@@ -38,6 +84,7 @@ class Calculator {
       document.getElementById('block').style.display = 'block';
       document.getElementById('blockNumbers').style.display = 'none';
     }
+    this.operationClicked = true;
   }
 
   addDot() {
@@ -49,65 +96,8 @@ class Calculator {
     this.printNumber();
   }
 
-  performCalculation() {
-    switch (this.operationValue) {
-      case "-":
-        if (this.numbers[0] === '') {
-          this.numbers[0] = 0;
-        }
-        this.result = Number(this.numbers[0]) - Number(this.numbers[1]);
-        break;
-      case "+":
-        if (this.numbers[0] === '') {
-          this.numbers[0] = 0;
-        }
-        this.result = Number(this.numbers[0]) + Number(this.numbers[1]);
-        break;
-      case `x`:
-        if (this.numbers[0] === '') {
-          this.numbers[0] = 0;
-        }
-        this.result = Number(this.numbers[0]) * Number(this.numbers[1]);
-        break;
-      case `/`:
-        console.log(this.numbers === 0);
-        if (this.numbers[1] === 0 || this.numbers[0] === '') {
-          this.playVid();
-        } else {
-          this.result = Number(this.numbers[0]) / Number(this.numbers[1]);
-        }
-        break;
-      default:
-        throw Error(`Looks like you did some wrong, gj`);
-    }
-    if (this.result === Infinity || this.result === -Infinity) {
-      this.playVid();
-      document.getElementById('block').style.display = 'block';
-      document.getElementById('blockNumbers').style.display = 'block';
-    } else {
-      document.getElementById('blockNumbers').style.display = 'block';
-      document.getElementById('block').style.display = 'none';
-      this.numbers[0] = this.result;
-      this.numbers[1] = '';
-    }
-    this.operationClicked = false;
-    this.keyboardInUse = true;
-    this.count = 0;
-    this.printNumber();
-    console.log(`${this.numbers[0]}\n${this.numbers[1]}`);
-  }
-
-  printNumber() {
-    console.log(this.numbers);
-    const calculationResult = document.getElementById('calculationResult');
-    const operations = document.getElementById('operations');
-    calculationResult.innerHTML = this.numbers[this.count];
-    if (this.operationClicked) {
-      operations.innerHTML = this.numbers[0] + ' ' + this.operationValue + ' ' + this.numbers[1];
-    }
-  }
-
   resetCalculator() {
+    console.log('backspace');
     this.count = 0;
     this.numbers = ['', ''];
     this.operationClicked = false;
@@ -116,8 +106,6 @@ class Calculator {
     document.getElementById('calculationResult').innerHTML = '';
     document.getElementById('block').style.display = 'none';
     document.getElementById('blockNumbers').style.display = 'none';
-    console.log("reset");
-    console.log("reset");
   }
 
   playVid() {
@@ -134,45 +122,58 @@ class Calculator {
     vid.pause();
   }
 
-  buttonAdd() {
-    document.addEventListener('keydown', (number) => {
-      this.keyboardInUse = true;
-      if (number.key > -1 && number.key <= 9) {
-        this.numbers[this.count] += Number(number.key);
-        this.printNumber();
-      }
-      switch (number.key) {
-        case "+":
-          this.operationValue = "+";
-          this.chooseOperation();
-          console.log('plus');
-          break;
-        case "-":
-          this.operationValue = "-";
-          this.chooseOperation();
-          break;
-        case "*":
-          this.operationValue = "*";
-          this.chooseOperation();
-          break;
-        case "/":
-          this.operationValue = "/";
-          this.chooseOperation();
-          break;
-        case "Backspace":
-          this.resetCalculator();
-          break;
-        case ".":
-          this.addDot();
-          break;
-      }
-      if (number.key === 'Enter') {
-        this.performCalculation();
-      }
-      this.operationClicked = true;
-      console.log(this.numbers);
-      console.log(number);
-    });
+  performCalculation() {
+    if (this.number[0] === '') {
+      this.numbers[0] = 0;
+    }
+    switch (this.operationValue) {
+      case "-":
+        this.result = Number(this.numbers[0]) - Number(this.numbers[1]);
+        break;
+      case "+":
+        this.result = Number(this.numbers[0]) + Number(this.numbers[1]);
+        break;
+      case `x`:
+        this.result = Number(this.numbers[0]) * Number(this.numbers[1]);
+        break;
+      case `/`:
+        console.log(this.numbers === 0);
+        if (this.numbers[1] !== 0) {
+          this.result = Number(this.numbers[0]) / Number(this.numbers[1]);
+        } else {
+          this.playVid();
+        }
+        break;
+      default:
+        throw Error(`Looks like you did some wrong, gj`);
+    }
+    if (this.result === Infinity || this.result === -Infinity) {
+      this.playVid();
+      document.getElementById('block').style.display = 'block';
+      document.getElementById('blockNumbers').style.display = 'block';
+    } else {
+      document.getElementById('blockNumbers').style.display = 'block';
+      document.getElementById('block').style.display = 'none';
+      this.numbers[0] = this.result;
+      this.numbers[1] = '';
+    }
+    this.operationClicked = false;
+    this.keyboardInUse = false;
+    this.count = 0;
+    this.printNumber();
+    console.log(`${this.numbers[0]}\n${this.numbers[1]}`);
+  }
+
+  printNumber() {
+    console.log(this.operationClicked);
+    const calculationResult = document.getElementById('calculationResult');
+    const operations = document.getElementById('operations');
+    calculationResult.innerHTML = this.numbers[this.count];
+    if (this.operationClicked) {
+      operations.innerHTML = this.numbers[0] + ' ' + this.operationValue + ' ' + this.numbers[1];
+    } else {
+      operations.innerHTML = ``;
+    }
   }
 
 }
@@ -191,6 +192,7 @@ document.addEventListener("DOMContentLoaded", () => {
     calculator.addDot();
   });
   calculator.buttonAdd();
+  calculator.operationAdd();
 });
 
 
