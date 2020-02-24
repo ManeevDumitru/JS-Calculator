@@ -234,15 +234,3 @@ ul li {
     top: 0;
     display: none;
 }
-
-#blockNumbers {
-  position: absolute;
-  top: 0;
-  right: 0;
-  background:#fff !important;
-  color: #000 !important;
-  height: 100%;
-  width: 100%;
-  z-index: 2;
-  opacity: 50%;
-}
