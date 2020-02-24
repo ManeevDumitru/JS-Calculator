@@ -118,37 +118,3 @@ document.getElementById('minus').addEventListener('click', operationMinus);
 document.getElementById('plus').addEventListener('click', operationPlus);
 document.getElementById('equal').addEventListener('click', equal);
 document.getElementById('clear').addEventListener('click', clear);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
