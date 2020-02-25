@@ -13,7 +13,6 @@ class Calculator {
         this.rightOperand += button.target.value.toString();
       }
     }
-    console.log(this.leftOperand + `\n` + this.rightOperand);
     this.showResult();
   }
 
@@ -23,7 +22,6 @@ class Calculator {
       this.operator = button.target.value;
       console.log(`Operator is ${this.operator}`);
     }
-    console.log(this.leftOperand + `\n` + this.rightOperand);
     this.showResult();
   }
 
@@ -54,7 +52,6 @@ class Calculator {
     this.leftOperand = result.toString();
     this.rightOperand = '';
     this.operator = '';
-    console.log(this.leftOperand + `\n` + this.rightOperand);
     this.showResult();
   }
 
@@ -68,7 +65,6 @@ class Calculator {
         this.rightOperand += `.`;
       }
     }
-    console.log(this.leftOperand + `\n` + this.rightOperand);
   }
 
   showResult() { // Show's result
@@ -89,7 +85,6 @@ class Calculator {
     } else {
       this.rightOperand += keyboardButton.key.toString();
     }
-    console.log(this.leftOperand + `\n` + this.rightOperand);
     this.showResult();
   }
 
@@ -97,27 +92,21 @@ class Calculator {
       switch (keyboardButton.key) {
         case "/":
           this.operator = `/`;
-          console.log(`/`);
           break;
         case "*":
-          console.log(`*`);
           this.operator = `*`;
           break;
         case "-":
-          console.log(`-`);
           this.operator = `-`;
           break;
         case "+":
-          console.log(`+`);
           this.operator = `+`;
-          console.log(this.operator);
           break;
     }
-    console.log(this.leftOperand + `\n` + this.rightOperand);
     this.showResult();
   }
 
-  keyboardInputOperations(keyboardButton) { // Perform the calculations using keyboard
+  keyboardChooseMethod(keyboardButton) { // Perform the calculations using keyboard
     switch (keyboardButton.key) {
       case (keyboardButton.key === "+" &&
         keyboardButton.key === "-" &&
@@ -135,7 +124,6 @@ class Calculator {
         this.resetCalculator();
         break;
     }
-    console.log(`${this.leftOperand} \n ${this.rightOperand}`);
     this.showResult();
   }
 
@@ -144,7 +132,6 @@ class Calculator {
     this.rightOperand = '';
     this.operator = '';
     this.showResult();
-    console.log(this.leftOperand + `\n` + this.rightOperand);
   }
 }
 
@@ -170,6 +157,6 @@ document.addEventListener('DOMContentLoaded', () => {
       calculator.keyboardInputDigits(keyboardButton);
     }
     calculator.keyboardChooseOperation(keyboardButton);
-    calculator.keyboardInputOperations(keyboardButton);
+    calculator.keyboardChooseMethod(keyboardButton);
   });
 });
