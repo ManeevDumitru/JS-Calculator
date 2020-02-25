@@ -5,7 +5,7 @@ class Calculator {
     this.operator = '';
   }
 
-  digitClick(button) {
+  digitClick(button) { // Get value by clicking in HTML buttons and puts it into current number
     if (button.target.className === 'number') {
       if (this.operator === '') {
         this.leftOperand += button.target.value.toString();
@@ -13,60 +13,65 @@ class Calculator {
         this.rightOperand += button.target.value.toString();
       }
     }
+    console.log(this.leftOperand + `\n` + this.rightOperand);
     this.showResult();
   }
 
-  chooseOperation(button) {
+  chooseOperation(button) { // Depending on what button you click sets the operator to this button value
     if (this.operator !== '' && this.rightOperand !== '') this.performCalculation();
     if (button.target.className === `operands`) {
       this.operator = button.target.value;
       console.log(`Operator is ${this.operator}`);
     }
+    console.log(this.leftOperand + `\n` + this.rightOperand);
     this.showResult();
   }
 
-  performCalculation() {
-    console.log(`Operator is ${this.operator}`);
-    let result = '';
-    if (this.leftOperand === '') {
-      this.leftOperand = 0;
-    }
+  performCalculation() { // Performs calculations
+    let result = ' ';
     switch (this.operator) {
       case `/`:
-        if (this.rightOperand === 0) {
-          throw Error (`Can't divide by 0`);
-        } else {
+        if (this.rightOperand !== `0`) {
           result = (Number(this.leftOperand) / Number(this.rightOperand)).toFixed(2);
+        } else {
+          throw Error(`Can't divide by 0`);
         }
         break;
       case `*`:
-        result = Number(this.leftOperand) * Number(this.rightOperand);
+        if (this.rightOperand !== "" && this.leftOperand !== `.`) {
+          result = Number(this.leftOperand) * Number(this.rightOperand);
+        } else {
+          throw Error (`EROR 404`);
+        }
         break;
       case `+`:
         result = Number(this.leftOperand) + Number(this.rightOperand);
         break;
       case `-`:
-        if (this.leftOperand === '') {
-          result = 0 - Number(this.rightOperand);
-        } else {
-          result = Number(this.leftOperand) - Number(this.rightOperand);
-        }
+        result = Number(this.leftOperand) - Number(this.rightOperand);
         break;
     }
     this.leftOperand = result.toString();
     this.rightOperand = '';
     this.operator = '';
+    console.log(this.leftOperand + `\n` + this.rightOperand);
+    this.showResult();
   }
 
-   addDot() {
+  addDot() { // Adds dot to current number
     if (this.operator === '') {
-      this.leftOperand += `.`;
+      if (!this.leftOperand.includes(`.`) && this.leftOperand.length > 0) {
+        this.leftOperand += `.`;
+      }
     } else {
-      this.rightOperand += `.`;
+      if (!this.rightOperand.includes(`.`) && this.rightOperand.length > 0) {
+        this.rightOperand += `.`;
+      }
     }
-   }
+    console.log(this.leftOperand + `\n` + this.rightOperand);
+  }
 
-  showResult() {
+  showResult() { // Show's result
     if (this.operator === '') {
       document.getElementById('calculationResult').innerText = this.leftOperand;
       document.getElementById('operations').innerText = `${this.leftOperand}`;
@@ -76,11 +81,70 @@ class Calculator {
     }
   }
 
-  resetCalculator() {
+  /* WORK IN PROGRESS */  /* WORK IN PROGRESS */  /* WORK IN PROGRESS */  /* WORK IN PROGRESS */
+
+  keyboardInputDigits(keyboardButton) { // Write the number using the keyboard
+    if (this.operator === '') {
+      this.leftOperand += keyboardButton.key.toString();
+    } else {
+      this.rightOperand += keyboardButton.key.toString();
+    }
+    console.log(this.leftOperand + `\n` + this.rightOperand);
+    this.showResult();
+  }
+
+  keyboardChooseOperation(keyboardButton) { // Choose the operation using the keyboard
+      switch (keyboardButton.key) {
+        case "/":
+          this.operator = `/`;
+          console.log(`/`);
+          break;
+        case "*":
+          console.log(`*`);
+          this.operator = `*`;
+          break;
+        case "-":
+          console.log(`-`);
+          this.operator = `-`;
+          break;
+        case "+":
+          console.log(`+`);
+          this.operator = `+`;
+          console.log(this.operator);
+          break;
+    }
+    console.log(this.leftOperand + `\n` + this.rightOperand);
+    this.showResult();
+  }
+
+  keyboardInputOperations(keyboardButton) { // Perform the calculations using keyboard
+    switch (keyboardButton.key) {
+      case (keyboardButton.key === "+" &&
+        keyboardButton.key === "-" &&
+        keyboardButton.key === "*" &&
+        keyboardButton.key === "/"):
+        this.keyboardChooseOperation(keyboardButton);
+        break;
+      case "Enter":
+        this.performCalculation();
+        break;
+      case ".":
+        this.addDot();
+        break;
+      case "Backspace":
+        this.resetCalculator();
+        break;
+    }
+    console.log(`${this.leftOperand} \n ${this.rightOperand}`);
+    this.showResult();
+  }
+
+  resetCalculator() { // Resets the calculator
     this.leftOperand = '';
     this.rightOperand = '';
     this.operator = '';
     this.showResult();
+    console.log(this.leftOperand + `\n` + this.rightOperand);
   }
 }
 
@@ -100,5 +164,12 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   document.getElementById(`clear`).addEventListener('click', () => {
     calculator.resetCalculator();
+  });
+  document.addEventListener('keydown', (keyboardButton) => {
+    if (keyboardButton.key > -1 && keyboardButton.key <= 9) {
+      calculator.keyboardInputDigits(keyboardButton);
+    }
+    calculator.keyboardChooseOperation(keyboardButton);
+    calculator.keyboardInputOperations(keyboardButton);
   });
 });
