@@ -1,0 +1,254 @@
+* {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	color: white;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 24px;
+	position: relative;
+}
+
+* {
+	user-select: none;
+}
+
+*:focus {
+	outline: none;
+}
+
+body {
+	background: #12233b;
+}
+
+input {
+	background: none;
+	height: 90px;
+	width: 90px;
+	position: absolute;
+	left: 0;
+	top: 0;
+	opacity: 0;
+	cursor: default;
+}
+
+ul li {
+	display: inline-block;
+}
+
+#phone::before {
+	position: absolute;
+	content: 'Sergiu Chilat ';
+	color: pink;
+	padding: 15px 0 0 15px;
+	left: 0;
+	top: -50px;
+	height: 50px;
+	width: 370px;
+	border-radius: 15px 15px 0 0;
+	background: #1d3349;
+}
+
+#phone {
+	background: #2a2a2a;
+	max-width: 385px;
+	height: 100%;
+	position: relative;
+	z-index: 1;
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: 25px 300px 1fr;
+	margin: 75px 0 0 250px;
+}
+
+#phone::after {
+	position: absolute;
+	content: 'Screenshot (Feb 18, 2020 19:59:10)';
+	color: white;
+	padding: 15px 0 0 15px;
+	left: 0;
+	bottom: -65px;
+	height: 50px;
+	width: 370px;
+	border-radius: 0 0 15px 15px;
+	background: #1d3349;
+	font-size: 20px;
+}
+
+/* header */
+
+#header {
+	background: #1d1d1d;
+	width: 100%;
+	z-index: 2;
+	color: white;
+	line-height: 18px;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+}
+
+#headerLeft {
+	height: 100%;
+	padding-left: 5px;
+}
+
+#headerLeft ul li {
+	font-size: 12px;
+	display: inline-block;
+}
+
+.icon {
+	font-size: 12px;
+}
+
+#headerRight ul {
+	text-align: right;
+	padding-right: 10px;
+}
+
+#headerRight ul li {
+	font-size: 11px;
+}
+
+/* Results */
+
+#results {
+	position: relative;
+	background: none;
+	overflow: hidden;
+}
+
+#operations {
+	position: absolute;
+	right: 25px;
+	bottom: 75px;
+	font-size: 28px;
+	color: rgb(195, 195, 195);
+}
+
+#calculationResult {
+	opacity: 1;
+	z-index: 9;
+	height: 40px;
+	border: none;
+	line-height: 1;
+	text-align: right;
+	width: 340px;
+	position: absolute;
+	bottom: 25px;
+	right: 25px;
+	font-size: 36px;
+}
+
+/* Buttons */
+
+#buttons {
+	display: grid;
+	grid-template-columns: 270px 90px 25px;
+	color: white;
+}
+
+#buttonsLeft {
+	display: grid;
+	grid-template-columns: repeat(3, 90px);
+	grid-template-rows: repeat(4, 90px);
+}
+#buttonsLeft button {
+	height: 100%;
+	width: 100%;
+	color: white;
+	background: #000;
+	border: none;
+}
+
+#buttonsLeft button:hover {
+	background: #444444;
+}
+
+#buttonsLeft ul li {
+	text-align: center;
+	line-height: 90px;
+	background: #000000;
+}
+
+#buttonsMiddle {
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: repeat(5, 72px);
+	text-align: center;
+	line-height: 75px;
+	height: 100%;
+}
+
+#buttonsMiddle button {
+	background: #212121;
+  position: relative;
+  border: none;
+}
+
+#buttonsMiddle button:hover {
+	background: #444444;
+}
+
+#plusBlock {
+	position: absolute !important;
+	background: #fff;
+	z-index: 2;
+}
+
+#sumUp {
+	background: #eb0028 !important;
+}
+
+#sumUp:hover{
+	background: #b40522 !important;
+	cursor: pointer;
+}
+
+#buttonsRight {
+	line-height: 340px;
+	text-align: center;
+	font-size: 22px !important;
+	background: #414141;
+}
+
+#buttonsRight:hover {
+	background: #444444;
+	cursor: pointer;
+}
+
+#block {
+	height: 80%;
+	background: #000;
+	opacity: 50%;
+	width: 100%;
+	position: absolute;
+	left: 0;
+	top: 0;
+	display: none;
+}
+
+#clear {
+	z-index: 99;
+}
+
+#blockNumbers {
+	position: absolute;
+	top: 0;
+	right: 0;
+	background:#000 !important;
+	color: #000 !important;
+	height: 100%;
+	width: 100%;
+	z-index: 2;
+	opacity: 50%;
+	display: none;
+}
+
+video {
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 1;
+	transform: translate(-15%,-15%);
+	opacity: 0;
+}
