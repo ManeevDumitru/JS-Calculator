@@ -1,23 +1,23 @@
 class Calculator {
   constructor() {
-    this.operands = ['', ''];
+    this.leftOperand = '';
+    this.rightOperand = '';
     this.operator = '';
   }
 
   digitClick(button) {
     if (button.target.className === 'number') {
       if (this.operator === '') {
-        this.operands[0] += button.target.value.toString();
+        this.leftOperand += button.target.value.toString();
       } else {
-        this.operands[1] += button.target.value.toString();
+        this.rightOperand += button.target.value.toString();
       }
     }
     this.showResult();
   }
 
   chooseOperation(button) {
-    console.log(this.operands);
-    if (this.operator !== '' && this.operands[1] !== '') this.performCalculation();
+    if (this.operator !== '' && this.rightOperand !== '') this.performCalculation();
     if (button.target.className === `operands`) {
       this.operator = button.target.value;
       console.log(`Operator is ${this.operator}`);
@@ -27,52 +27,60 @@ class Calculator {
 
   performCalculation() {
     console.log(`Operator is ${this.operator}`);
-    let leftOperand = this.operands[0];
-    let rightOperand = this.operands[1];
     let result = '';
+    if (this.leftOperand === '') {
+      this.leftOperand = 0;
+    }
     switch (this.operator) {
       case `/`:
-        if (this.operands[1] !== 0) {
+        if (this.rightOperand === 0) {
           throw Error (`Can't divide by 0`);
         } else {
-          result = Number(leftOperand) / Number(rightOperand);
+          result = (Number(this.leftOperand) / Number(this.rightOperand)).toFixed(2);
         }
         break;
       case `*`:
-        result = Number(leftOperand) * Number(rightOperand);
+        result = Number(this.leftOperand) * Number(this.rightOperand);
         break;
       case `+`:
-        result = Number(leftOperand) + Number(rightOperand);
+        result = Number(this.leftOperand) + Number(this.rightOperand);
         break;
       case `-`:
-        if (leftOperand === '') {
-          result = 0 - Number(rightOperand);
+        if (this.leftOperand === '') {
+          result = 0 - Number(this.rightOperand);
         } else {
-          result = Number(leftOperand) - Number(rightOperand);
+          result = Number(this.leftOperand) - Number(this.rightOperand);
         }
         break;
     }
-    this.operands[0] = result.toString();
-    this.operands[1] = '';
+    this.leftOperand = result.toString();
+    this.rightOperand = '';
     this.operator = '';
   }
 
    addDot() {
     if (this.operator === '') {
-      this.operands[0] += `.`;
+      this.leftOperand += `.`;
     } else {
-      this.operands[1] += `.`;
+      this.rightOperand += `.`;
     }
    }
 
   showResult() {
     if (this.operator === '') {
-      document.getElementById('calculationResult').innerText = this.operands[0];
-      document.getElementById('operations').innerText = `${this.operands[0]}`;
+      document.getElementById('calculationResult').innerText = this.leftOperand;
+      document.getElementById('operations').innerText = `${this.leftOperand}`;
     } else {
-      document.getElementById('calculationResult').innerText = this.operands[1];
-      document.getElementById('operations').innerText = `${this.operands[0]} ${this.operator} ${this.operands[1]}`;
+      document.getElementById('calculationResult').innerText = this.rightOperand;
+      document.getElementById('operations').innerText = `${this.leftOperand} ${this.operator} ${this.rightOperand}`;
     }
+  }
+
+  resetCalculator() {
+    this.leftOperand = '';
+    this.rightOperand = '';
+    this.operator = '';
+    this.showResult();
   }
 }
 
@@ -89,5 +97,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   document.getElementById('dotButton').addEventListener(`click`, () => {
     calculator.addDot();
+  });
+  document.getElementById(`clear`).addEventListener('click', () => {
+    calculator.resetCalculator();
   });
 });
