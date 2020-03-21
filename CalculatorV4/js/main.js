@@ -27,25 +27,28 @@ class Calculator {
   performCalculation() { // Performs calculations
     let result = ' ';
     switch (this.operator) {
-      case `/`:
+      case '/':
         if (this.rightOperand !== `0`) {
           result = (Number(this.leftOperand) / Number(this.rightOperand)).toFixed(2);
         } else {
           throw Error(`Can't divide by 0`);
         }
         break;
-      case `*`:
+      case '*':
         if (this.rightOperand !== "" && this.leftOperand !== `.`) {
           result = Number(this.leftOperand) * Number(this.rightOperand);
         } else {
-          throw Error(`EROR 404`);
+          throw Error(`ERROR 404`);
         }
         break;
-      case `+`:
+      case '+':
         result = Number(this.leftOperand) + Number(this.rightOperand);
         break;
-      case `-`:
+      case '-':
         result = Number(this.leftOperand) - Number(this.rightOperand);
+        break;
+      case '*-':
+        result = Number(this.leftOperand) *- (Number(this.rightOperand));
         break;
     }
     console.log(`${this.leftOperand}\n${this.rightOperand}`);
@@ -56,7 +59,7 @@ class Calculator {
   }
 
   addDot() { // Adds dot to current number
-    if (this.operator === '') {
+    if (this.operator === "") {
       if (!this.leftOperand.includes(`.`) && this.leftOperand.length > 0) {
         this.leftOperand += `.`;
       }
@@ -68,16 +71,17 @@ class Calculator {
   }
 
   showResult() { // Show's result
+    const operations = document.getElementById('operations');
+    const calculationsResult = document.getElementById('calculationResult');
+
     if (this.operator === '') {
-      document.getElementById('calculationResult').innerText = this.leftOperand;
-      document.getElementById('operations').innerText = `${this.leftOperand}`;
+      operations.innerText = `${this.leftOperand}`;
+      calculationsResult.innerText = this.leftOperand;
     } else {
-      document.getElementById('calculationResult').innerText = this.rightOperand;
-      document.getElementById('operations').innerText = `${this.leftOperand} ${this.operator} ${this.rightOperand}`;
+      operations.innerText = `${this.leftOperand} ${this.operator} ${this.rightOperand}`;
+      calculationsResult.innerText = this.rightOperand;
     }
   }
-
-  /* WORK IN PROGRESS */  /* WORK IN PROGRESS */  /* WORK IN PROGRESS */  /* WORK IN PROGRESS */
 
   keyboardInputDigits(keyboardButton) { // Write the number using the keyboard
     if (this.operator === '') {
@@ -87,25 +91,30 @@ class Calculator {
     }
   }
 
-  keyboardChooseOperation(keyboardButton) {// Choose the operation using the keyboard
+  keyboardChooseOperation(keyboardButton) { // Choose the operation using the keyboard
     if (this.keyboardOperatorChosen === true && (this.rightOperand !== '' && this.rightOperand !== '0')) {
       this.performCalculation();
       this.keyboardOperatorChosen = false;
     } else {
       switch (keyboardButton.key) {
-        case "+":
-          this.operator = "+";
+        case '+':
+          this.operator = '+';
           break;
-        case "-":
-          this.operator = "-";
+        case '-':
+          if (this.operator === '*') {
+            this.operator = '*-';
+          } else {
+            this.operator = '-';
+          }
           break;
-        case "/":
-          this.operator = "/";
+        case '/':
+          this.operator = '/';
           break;
-        case "*":
-          this.operator = "*";
+        case '*':
+          this.operator = '*';
           break;
       }
+
       this.keyboardOperatorChosen = true;
       this.showResult();
     }
@@ -121,6 +130,8 @@ class Calculator {
 
 document.addEventListener('DOMContentLoaded', () => {
   let calculator = new Calculator();
+  const operators = ["+", "-", "*", "-"];
+
   document.getElementById(`buttonsLeft`).addEventListener('click', (button) => {
     calculator.digitClick(button);
     calculator.showResult();
@@ -142,12 +153,11 @@ document.addEventListener('DOMContentLoaded', () => {
     calculator.showResult();
   });
   document.addEventListener('keydown', (keyboardButton) => {
-    if (keyboardButton.key > -1 && keyboardButton.key <= 9) {
+    if (keyboardButton.key >= 0 && keyboardButton.key <= 9) {
       calculator.keyboardInputDigits(keyboardButton);
       calculator.showResult();
     }
-    if (keyboardButton.key === "+" || keyboardButton.key === "-" || keyboardButton.key === "*" ||
-      keyboardButton.key === "/") {
+    if (operators.includes(keyboardButton.key.toString())) {
       calculator.keyboardChooseOperation(keyboardButton);
       calculator.showResult();
     }
